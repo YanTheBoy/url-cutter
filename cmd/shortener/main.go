@@ -40,8 +40,8 @@ func shortLongURL(w http.ResponseWriter, r *http.Request) {
 }
 
 func URLShortener(url string) string {
-	shortUrl := []byte(url)
-	urlEnc := base64.StdEncoding.EncodeToString(shortUrl)
+	shortURL := []byte(url)
+	urlEnc := base64.StdEncoding.EncodeToString(shortURL)
 	return urlEnc
 }
 
