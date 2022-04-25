@@ -1,15 +1,15 @@
 package app
 
 import (
-	"github.com/url-cutter/internal/app/httphandlers"
-	"github.com/url-cutter/internal/repository"
+	"github.com/iliarkhpv/url-cutter/internal/app/handlers"
+	"github.com/iliarkhpv/url-cutter/internal/repository"
 )
 
 const port = ":8080"
 
 func Run() error {
 	urlStorage := repository.CreateURLStorage()
-	httpHandler := httphandlers.NewHTTPHandler(urlStorage)
+	httpHandler := handlers.NewHTTPHandler(urlStorage)
 
 	e := echo.New()
 	e.GET("/:id", httpHandler.Get())

@@ -1,8 +1,6 @@
 package handlers
 
-import (
-"github.com/url-cutter/internal/repository"
-)
+import "github.com/iliarkhpv/url-cutter/internal/repository"
 
 const host = "http://localhost:8080/"
 
