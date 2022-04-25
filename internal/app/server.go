@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/iliarkhpv/url-cutter/internal/app/handlers"
 	"github.com/iliarkhpv/url-cutter/internal/repository"
+	"github.com/labstack/echo/v4"
 )
 
 const port = ":8080"
