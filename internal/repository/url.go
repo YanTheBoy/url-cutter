@@ -18,8 +18,8 @@ func (d *Storage) Add(id string, url string) {
 
 func (d *Storage) Get(id string) (string, error) {
 	URL, found := d.urlStorage[id]
-	if found == false{
-		return "", fmt.Errorf("Cant find URL by %d.",id)
+	if !found {
+		return "", fmt.Errorf("cant find URL %s", id)
 	}
 	return URL, nil
 }
