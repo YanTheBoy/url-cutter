@@ -21,13 +21,13 @@ func TestPostURL(t *testing.T) {
 		want  want
 	}{
 		{
-			name:  "body is empty",
+			name:  "post with empty body is",
 			value: "",
 			want:  want{code: 400},
 		},
 		{
-			name:  "with param",
-			value: "https://www.yandex.ru",
+			name:  "post with param",
+			value: "8406f18f-95c5-4953-94c8-275460c36f70",
 			want:  want{code: 201},
 		},
 	}
