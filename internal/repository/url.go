@@ -10,7 +10,7 @@ type Storage struct {
 	urlStorage map[string]string
 }
 
-func CreateUrlStorage() URLStorage {
+func CreateURLStorage() URLStorage {
 	return &Storage{
 		urlStorage: make(map[string]string),
 	}
