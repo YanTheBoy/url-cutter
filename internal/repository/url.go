@@ -10,7 +10,11 @@ type Storage struct {
 	urlStorage map[string]string
 }
 
-func CreateURLStorage() *Storage {
+type StorageCreator interface {
+	CreateURLStorage()
+}
+
+func (d *Storage) CreateURLStorage() *Storage {
 	return &Storage{
 		urlStorage: make(map[string]string),
 	}
