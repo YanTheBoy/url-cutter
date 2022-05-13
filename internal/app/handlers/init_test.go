@@ -13,8 +13,7 @@ type testEnv struct {
 func newTestEnv(t *testing.T) *testEnv {
 	te := &testEnv{}
 
-	newStorage := repository.Storage{}
-	te.urlStorage = newStorage.CreateURLStorage()
+	te.urlStorage = repository.CreateUrlStorage()
 	te.httpHandler = NewHTTPHandler(
 		te.urlStorage,
 	)

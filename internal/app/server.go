@@ -9,8 +9,7 @@ import (
 const port = ":8080"
 
 func Run() error {
-	newStorage := repository.Storage{}
-	urlStorage := newStorage.CreateURLStorage()
+	urlStorage := repository.CreateUrlStorage()
 	httpHandler := handlers.NewHTTPHandler(urlStorage)
 
 	e := echo.New()

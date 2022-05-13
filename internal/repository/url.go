@@ -10,26 +10,22 @@ type Storage struct {
 	urlStorage map[string]string
 }
 
-type StorageCreator interface {
-	CreateURLStorage()
-}
-
-func (d *Storage) CreateURLStorage() *Storage {
+func CreateUrlStorage() URLStorage {
 	return &Storage{
 		urlStorage: make(map[string]string),
 	}
 }
 
-func (d *Storage) Add(id string, url string) {
-	d.mx.Lock()
-	defer d.mx.Unlock()
-	d.urlStorage[id] = url
+func (s *Storage) Add(id string, url string) {
+	s.mx.Lock()
+	defer s.mx.Unlock()
+	s.urlStorage[id] = url
 }
 
-func (d *Storage) Get(id string) (string, error) {
-	d.mx.Lock()
-	defer d.mx.Unlock()
-	URL, found := d.urlStorage[id]
+func (s *Storage) Get(id string) (string, error) {
+	s.mx.Lock()
+	defer s.mx.Unlock()
+	URL, found := s.urlStorage[id]
 	if !found {
 		return "", fmt.Errorf("cant find URL %s", id)
 	}
