@@ -1,23 +1,31 @@
 package repository
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+)
 
 type Storage struct {
+	mx         sync.Mutex
 	urlStorage map[string]string
 }
 
-func CreateURLStorage() *Storage {
+func CreateURLStorage() URLStorage {
 	return &Storage{
 		urlStorage: make(map[string]string),
 	}
 }
 
-func (d *Storage) Add(id string, url string) {
-	d.urlStorage[id] = url
+func (s *Storage) Add(id string, url string) {
+	s.mx.Lock()
+	defer s.mx.Unlock()
+	s.urlStorage[id] = url
 }
 
-func (d *Storage) Get(id string) (string, error) {
-	URL, found := d.urlStorage[id]
+func (s *Storage) Get(id string) (string, error) {
+	s.mx.Lock()
+	defer s.mx.Unlock()
+	URL, found := s.urlStorage[id]
 	if !found {
 		return "", fmt.Errorf("cant find URL %s", id)
 	}

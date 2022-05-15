@@ -14,7 +14,7 @@ func (h *HTTPHandler) Post() echo.HandlerFunc {
 			return c.String(http.StatusBadRequest, err.Error())
 		}
 		if len(body) == 0 {
-			return c.String(http.StatusBadRequest, "body is empty")
+			return c.String(http.StatusBadRequest, "You should set body")
 		}
 
 		urlIdentifier := uuid.New().String()
