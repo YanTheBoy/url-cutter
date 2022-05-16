@@ -2,13 +2,14 @@ package app
 
 import (
 	"github.com/iliarkhpv/url-cutter/internal/app/handlers"
+	config "github.com/iliarkhpv/url-cutter/internal/cfg"
 	"github.com/iliarkhpv/url-cutter/internal/repository"
 	"github.com/labstack/echo/v4"
 )
 
 const port = ":8080"
 
-func Run() error {
+func Run(cfg *config.Config) error {
 	urlStorage := repository.CreateURLStorage()
 	httpHandler := handlers.NewHTTPHandler(urlStorage)
 
