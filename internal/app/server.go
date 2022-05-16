@@ -15,8 +15,18 @@ func Run() error {
 	e := echo.New()
 	e.GET("/:id", httpHandler.Get())
 	e.POST("/", httpHandler.Post())
+	e.POST("/api/shorten/", httpHandler.PostBody())
 
 	e.Logger.Fatal(e.Start(port))
 
 	return nil
 }
+
+/*
+Добавьте в сервер новый эндпоинт POST /api/shorten,
+принимающий в теле запроса JSON-объект {"url":"<some_url>"}
+и возвращающий в ответ объект {"result":"<shorten_url>"}.
+Не забудьте добавить тесты на новый эндпоинт, как и на предыдущие.
+Помните про HTTP content negotiation, проставляйте правильные
+значения в заголовок Content-Type.
+*/

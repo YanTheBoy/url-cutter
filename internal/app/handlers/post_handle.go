@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/google/uuid"
+	"github.com/iliarkhpv/url-cutter/internal/repository"
 	"github.com/labstack/echo/v4"
 	"io"
 	"net/http"
@@ -16,11 +17,25 @@ func (h *HTTPHandler) Post() echo.HandlerFunc {
 		if len(body) == 0 {
 			return c.String(http.StatusBadRequest, "You should set body")
 		}
-
 		urlIdentifier := uuid.New().String()
 		shortURL := host + urlIdentifier
 		h.urlStorage.Add(urlIdentifier, string(body))
 
 		return c.String(http.StatusCreated, shortURL)
+	}
+}
+
+func (h *HTTPHandler) PostBody() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		u := new(repository.URL)
+		if err := c.Bind(u); err != nil {
+			return err
+		} else {
+			urlIdentifier := uuid.New().String()
+			shortURL := host + urlIdentifier
+			u.Result = shortURL
+			c.Response().Header().Set("Content-Type", "application/json")
+			return c.JSON(http.StatusCreated, u)
+		}
 	}
 }
