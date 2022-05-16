@@ -2,11 +2,15 @@ package handlers
 
 import (
 	"github.com/google/uuid"
-	"github.com/iliarkhpv/url-cutter/internal/repository"
 	"github.com/labstack/echo/v4"
 	"io"
 	"net/http"
 )
+
+type URL struct {
+	URL    string `json:"-"`
+	Result string `json:"result,omitempty"`
+}
 
 func (h *HTTPHandler) Post() echo.HandlerFunc {
 	return func(c echo.Context) error {
@@ -27,7 +31,7 @@ func (h *HTTPHandler) Post() echo.HandlerFunc {
 
 func (h *HTTPHandler) PostBody() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		u := new(repository.URL)
+		u := new(URL)
 		if err := c.Bind(u); err != nil {
 			return err
 		} else {
