@@ -16,10 +16,11 @@ func CreateURLStorage() URLStorage {
 	}
 }
 
-func (s *Storage) Add(id string, url string) {
+func (s *Storage) Add(id string, url string) error {
 	s.mx.Lock()
 	defer s.mx.Unlock()
 	s.urlStorage[id] = url
+	return nil
 }
 
 func (s *Storage) Get(id string) (string, error) {

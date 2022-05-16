@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"io"
@@ -23,23 +24,11 @@ func (h *HTTPHandler) Post() echo.HandlerFunc {
 		}
 		urlIdentifier := uuid.New().String()
 		shortURL := host + urlIdentifier
-		h.urlStorage.Add(urlIdentifier, string(body))
+		err = h.urlStorage.Add(urlIdentifier, string(body))
+		if err != nil {
+			return errors.New("error adding")
+		}
 
 		return c.String(http.StatusCreated, shortURL)
-	}
-}
-
-func (h *HTTPHandler) PostBody() echo.HandlerFunc {
-	return func(c echo.Context) error {
-		u := new(URL)
-		if err := c.Bind(u); err != nil {
-			return err
-		} else {
-			urlIdentifier := uuid.New().String()
-			shortURL := host + urlIdentifier
-			u.Result = shortURL
-			c.Response().Header().Set("Content-Type", "application/json")
-			return c.JSON(http.StatusCreated, u)
-		}
 	}
 }
