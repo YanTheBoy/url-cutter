@@ -6,6 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"io"
 	"net/http"
+	"strings"
 )
 
 func (h *HTTPHandler) Post(cfg *config.Config) echo.HandlerFunc {
@@ -24,7 +25,7 @@ func (h *HTTPHandler) Post(cfg *config.Config) echo.HandlerFunc {
 		}
 
 		urlIdentifier := uuid.New().String()
-		shortURL := cfg.BaseURL + urlIdentifier
+		shortURL := strings.Join([]string{cfg.BaseURL, urlIdentifier}, "/")
 		err = h.urlStorage.Add(urlIdentifier, string(body))
 		if err != nil {
 			return c.String(http.StatusBadRequest, "error create")

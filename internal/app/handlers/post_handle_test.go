@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	config "github.com/iliarkhpv/url-cutter/internal/cfg"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -37,8 +38,11 @@ func TestPostURL(t *testing.T) {
 			req := httptest.NewRequest(http.MethodPost, "/", strings.NewReader(tt.value))
 			rec := httptest.NewRecorder()
 			ctx := e.NewContext(req, rec)
+			cfg := &config.Config{
+				BaseURL: "http://localhost:8080",
+			}
 
-			h := te.httpHandler.Post()
+			h := te.httpHandler.Post(cfg)
 			if assert.NoError(t, h(ctx)) {
 				require.Equal(t, tt.want.code, rec.Code)
 				require.NotNil(t, rec.Body.String())
