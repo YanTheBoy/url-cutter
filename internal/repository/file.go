@@ -37,6 +37,9 @@ func NewInFile(filePath string) (URLStorage, error) {
 }
 
 func (s *InFile) Add(id string, url string) error {
+	if _, ok := s.cache[id]; ok {
+		return ErrAlreadyExists
+	}
 	s.mx.Lock()
 	defer s.mx.Unlock()
 	s.cache[id] = url
@@ -47,8 +50,11 @@ func (s *InFile) Add(id string, url string) error {
 }
 
 func (s *InFile) Get(id string) (string, error) {
+	URL, ok := s.cache[id]
+	if !ok {
+		return "", ErrNotFound
+	}
 	s.mx.Lock()
 	defer s.mx.Unlock()
-	URL := s.cache[id]
 	return URL, nil
 }
