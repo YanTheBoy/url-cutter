@@ -23,12 +23,12 @@ func TestGet(t *testing.T) {
 		{
 			name:  "get without param",
 			value: "",
-			want:  want{code: 307},
+			want:  want{code: 400},
 		},
 		{
 			name:  "get with invalid param",
 			value: "11111",
-			want:  want{code: 307},
+			want:  want{code: 400},
 		},
 		{
 			name:  "get with params",

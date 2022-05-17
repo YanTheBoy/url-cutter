@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"errors"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"io"
@@ -32,7 +31,7 @@ func (h *HTTPHandler) Post() echo.HandlerFunc {
 		shortURL := host + urlIdentifier
 		err = h.urlStorage.Add(urlIdentifier, string(body))
 		if err != nil {
-			return errors.New("error adding")
+			return c.String(http.StatusBadRequest, "error create")
 		}
 
 		return c.String(http.StatusCreated, shortURL)

@@ -10,8 +10,13 @@ import (
 
 func Run(cfg *config.Config) error {
 	var storage repository.URLStorage
+	var err error
+
 	if cfg.FileStoragePath != "" {
 		storage, _ = repository.NewInFile(cfg.FileStoragePath)
+		if err != nil {
+			return err
+		}
 	} else {
 		storage = repository.NewInMemory()
 	}
