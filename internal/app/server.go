@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/iliarkhpv/url-cutter/internal/app/handlers"
 	config "github.com/iliarkhpv/url-cutter/internal/cfg"
+	"github.com/iliarkhpv/url-cutter/internal/middleware"
 	"github.com/iliarkhpv/url-cutter/internal/repository"
 	"github.com/labstack/echo/v4"
 )
@@ -20,6 +21,8 @@ func Run(cfg *config.Config) error {
 	e.GET("/:id", httpHandler.Get())
 	e.POST("/", httpHandler.Post())
 	e.POST("/api/shorten", httpHandler.PostBody(cfg))
+	e.Use(middleware.Decompress())
+	e.Use(middleware.Compress())
 
 	e.Logger.Fatal(e.Start(cfg.ServerAddress))
 

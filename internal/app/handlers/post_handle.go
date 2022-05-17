@@ -22,6 +22,12 @@ func (h *HTTPHandler) Post() echo.HandlerFunc {
 		if len(body) == 0 {
 			return c.String(http.StatusBadRequest, "You should set body")
 		}
+		URL := string(body)
+		err = checkURL(URL)
+		if err != nil {
+			return c.String(http.StatusBadRequest, err.Error())
+		}
+
 		urlIdentifier := uuid.New().String()
 		shortURL := host + urlIdentifier
 		err = h.urlStorage.Add(urlIdentifier, string(body))

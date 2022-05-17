@@ -24,13 +24,18 @@ func (h *HTTPHandler) PostBody(cfg *config.Config) echo.HandlerFunc {
 			return c.String(http.StatusBadRequest, err.Error())
 		}
 
+		err := checkURL(request.URL)
+		if err != nil {
+			return c.String(http.StatusBadRequest, err.Error())
+		}
+
 		URLIdentifier := uuid.New().String()
-		err := h.urlStorage.Add(URLIdentifier, request.URL)
+		err = h.urlStorage.Add(URLIdentifier, request.URL)
 		if err != nil {
 			return c.String(http.StatusBadRequest, "error during adding")
 		}
 
-		c.Response().Header().Set("Content-Type", "application/json")
+		c.Response().Header().Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		return c.JSON(http.StatusCreated, Response{
 			Result: strings.Join([]string{cfg.BaseURL, URLIdentifier}, "/"),
 		})
