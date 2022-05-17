@@ -23,12 +23,12 @@ func TestGet(t *testing.T) {
 		{
 			name:  "get without param",
 			value: "",
-			want:  want{code: 400},
+			want:  want{code: 307},
 		},
 		{
-			name:  "git with invalid param",
+			name:  "get with invalid param",
 			value: "11111",
-			want:  want{code: 400},
+			want:  want{code: 307},
 		},
 		{
 			name:  "get with params",
@@ -47,7 +47,11 @@ func TestGet(t *testing.T) {
 			ctx.SetParamNames("id")
 			ctx.SetParamValues(tt.value)
 
-			te.urlStorage.Add("8406f18f-95c5-4953-94c8-275460c36f70", "https://www.uuidgenerator.net/version4")
+			err := te.inMemoryRepo.Add("8406f18f-95c5-4953-94c8-275460c36f70",
+				"https://www.uuidgenerator.net/version4")
+			if err != nil {
+				return
+			}
 
 			h := te.httpHandler.Get()
 			if assert.NoError(t, h(ctx)) {

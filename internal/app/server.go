@@ -8,13 +8,18 @@ import (
 )
 
 func Run(cfg *config.Config) error {
-	urlStorage := repository.CreateURLStorage()
-	httpHandler := handlers.NewHTTPHandler(urlStorage)
+	var storage repository.URLStorage
+	if cfg.FileStoragePath != "" {
+		storage, _ = repository.NewInFile(cfg.FileStoragePath)
+	} else {
+		storage = repository.NewInMemory()
+	}
+	httpHandler := handlers.NewHTTPHandler(storage)
 
 	e := echo.New()
 	e.GET("/:id", httpHandler.Get())
 	e.POST("/", httpHandler.Post())
-	e.POST("/api/shorten", httpHandler.PostBody())
+	e.POST("/api/shorten", httpHandler.PostBody(cfg))
 
 	e.Logger.Fatal(e.Start(cfg.ServerAddress))
 

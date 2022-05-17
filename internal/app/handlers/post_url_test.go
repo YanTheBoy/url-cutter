@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"bytes"
+	"github.com/iliarkhpv/url-cutter/internal/cfg"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -36,7 +37,11 @@ func TestShorten(t *testing.T) {
 			rec := httptest.NewRecorder()
 			ctx := e.NewContext(req, rec)
 
-			h := te.httpHandler.PostBody()
+			cfg := &config.Config{
+				BaseURL: "http://localhost:8080",
+			}
+
+			h := te.httpHandler.PostBody(cfg)
 			if assert.NoError(t, h(ctx)) {
 				require.NotEqual(t, tt.code, rec.Code)
 			}
