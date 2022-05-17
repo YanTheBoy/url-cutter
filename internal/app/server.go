@@ -13,7 +13,7 @@ func Run(cfg *config.Config) error {
 	var err error
 
 	if cfg.FileStoragePath != "" {
-		storage, _ = repository.NewInFile(cfg.FileStoragePath)
+		storage, err = repository.NewInFile(cfg.FileStoragePath)
 		if err != nil {
 			return err
 		}
@@ -24,7 +24,7 @@ func Run(cfg *config.Config) error {
 
 	e := echo.New()
 	e.GET("/:id", httpHandler.Get())
-	e.POST("/", httpHandler.Post())
+	e.POST("/", httpHandler.Post(cfg))
 	e.POST("/api/shorten", httpHandler.PostBody(cfg))
 	e.Use(middleware.Decompress())
 	e.Use(middleware.Compress())

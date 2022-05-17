@@ -5,8 +5,6 @@ import (
 	"net/url"
 )
 
-const host = "http://localhost:8080/"
-
 type HTTPHandler struct {
 	urlStorage repository.URLStorage
 }
