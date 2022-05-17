@@ -28,7 +28,7 @@ func TestPostURL(t *testing.T) {
 		{
 			name:  "post with param",
 			value: "8406f18f-95c5-4953-94c8-275460c36f70",
-			want:  want{code: 201},
+			want:  want{code: 400},
 		},
 	}
 	for _, tt := range tests {

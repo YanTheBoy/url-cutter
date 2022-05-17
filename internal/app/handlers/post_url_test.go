@@ -43,7 +43,7 @@ func TestShorten(t *testing.T) {
 
 			h := te.httpHandler.PostBody(cfg)
 			if assert.NoError(t, h(ctx)) {
-				require.NotEqual(t, tt.code, rec.Code)
+				require.Equal(t, tt.code, rec.Code)
 			}
 		})
 	}
