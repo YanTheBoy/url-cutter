@@ -7,8 +7,6 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-const port = ":8080"
-
 func Run(cfg *config.Config) error {
 	urlStorage := repository.CreateURLStorage()
 	httpHandler := handlers.NewHTTPHandler(urlStorage)
@@ -18,16 +16,7 @@ func Run(cfg *config.Config) error {
 	e.POST("/", httpHandler.Post())
 	e.POST("/api/shorten", httpHandler.PostBody())
 
-	e.Logger.Fatal(e.Start(port))
+	e.Logger.Fatal(e.Start(cfg.ServerAddress))
 
 	return nil
 }
-
-/*
-Добавьте в сервер новый эндпоинт POST /api/shorten,
-принимающий в теле запроса JSON-объект {"url":"<some_url>"}
-и возвращающий в ответ объект {"result":"<shorten_url>"}.
-Не забудьте добавить тесты на новый эндпоинт, как и на предыдущие.
-Помните про HTTP content negotiation, проставляйте правильные
-значения в заголовок Content-Type.
-*/
